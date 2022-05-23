@@ -9,13 +9,15 @@ public class Field extends JPanel {
     private int[][] gameField;
     private final int rowNumber;
     private final int colNumber;
+    private final int cellSize;
     private long time;
     private static final int DELAY = 500;
 
 
-    public Field(int rowNumber, int colNumber) {
+    public Field(int rowNumber, int colNumber, int cellSize) {
         this.rowNumber = rowNumber;
         this.colNumber = colNumber;
+        this.cellSize = cellSize;
         gameField = new int[rowNumber][colNumber];
         Random random = new Random();
         for (int i = 0; i < rowNumber; i++) {
@@ -36,7 +38,7 @@ public class Field extends JPanel {
                     } else {
                         g.setColor(Color.black);
                     }
-                    g.fillRect(j * 40, i * 40, 40, 40);
+                    g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
                 }
             }
             nextIteration();
