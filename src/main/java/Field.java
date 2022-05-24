@@ -25,6 +25,7 @@ public class Field extends JPanel {
                 gameField[i][j] = random.nextInt(2);
             }
         }
+        super.setPreferredSize(new Dimension(colNumber * cellSize, rowNumber * cellSize));
     }
 
     @Override
