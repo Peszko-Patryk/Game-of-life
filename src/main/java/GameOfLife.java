@@ -21,7 +21,7 @@ public class GameOfLife {
 
         frame.setLocationRelativeTo(null);
         frame.setTitle("Game Of Life");
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.add(field);
@@ -36,13 +36,13 @@ public class GameOfLife {
             switch (args[i].toUpperCase()) {
                 case "-R":
                     int rNumber = Integer.parseInt(args[++i]);
-                    if (rNumber > 0 && rNumber <= 100) {
+                    if (rNumber > 0 && rNumber <= 1000) {
                         rowNumber = rNumber;
                     }
                     break;
                 case "-C":
                     int cNumber = Integer.parseInt(args[++i]);
-                    if (cNumber > 0 && cNumber <= 100) {
+                    if (cNumber > 0 && cNumber <= 1000) {
                         colNumber = cNumber;
                     }
                     break;

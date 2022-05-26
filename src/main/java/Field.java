@@ -49,26 +49,50 @@ public class Field extends JPanel {
 
     private void nextIteration() {
         ArrayList<ThreadCounting> threadList = new ArrayList<>();
-        for (int i = 0; i < colNumber; i++) {
-            threadList.add(new ThreadCounting(gameField, i));
-            threadList.get(i).start();
+        long time = System.currentTimeMillis();
+        // columny
+//        for (int i = 0; i < colNumber; i++) {
+//            threadList.add(new ThreadCounting(gameField, i));
+//            threadList.get(i).start();
+//        }
+        int rowStep = 1000;
+        int threadCount = 0;
+        for (int i = 0; i < colNumber - 1; i+=rowStep) {
+            for (int l = 0 ; l < rowNumber-1; l++) {
+                int[] rowSteps = new int[rowStep];
+                int[] colSteps = new int[rowStep];
+                int current = i;
+                for (int j = 0; j < rowStep; j++) {
+                    colSteps[j] = current++;
+                }
+                for (int j = 0; j < rowStep; j++) {
+                    rowSteps[j] = l++;
+                }
+                l--;
+                threadList.add(new ThreadCounting(gameField, colSteps, rowSteps));
+                threadList.get(threadCount++).start();
+            }
         }
+
         int[][] newField = new int[rowNumber][colNumber];
         for (ThreadCounting thread : threadList) {
             try {
                 thread.join();
-                joinTable(thread.getColNumber(), thread.getResult(), newField);
+                joinTable(thread.getColNumber(), thread.getRowNumber(), thread.getResult(), newField);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        System.out.println("Time taken = " + (System.currentTimeMillis() - time));
 
         gameField = newField;
     }
 
-    private void joinTable(int colNum, int[] results, int[][] field) {
-        for (int i = 0; i < rowNumber; i++) {
-            field[i][colNum] = results[i];
+    private void joinTable(int[] colNum, int[] rowNum, int[][] results, int[][] field) {
+        for (int j = 0; j < colNum.length; j++) {
+            for (int i = 0; i < rowNum.length; i++) {
+                field[rowNum[i]][colNum[j]] = results[i][j];
+            }
         }
     }
 }
